@@ -46,6 +46,9 @@ app.use('/swagger.json', express.static('docs/swagger.json'));
 const formDataParser = multer().none();
 const urlEncodedBodyParser = bodyParser.urlencoded({extended: false});
 const jsonBodyParser = bodyParser.json();
+const morgan = require('morgan');
+
+app.use(morgan('[:date[web]] HTTP/Method: :method URL: :url Status: :status - :res[content-length] bytes - :response-time ms'));
 
 let taskManager;
 let server;
@@ -504,12 +507,16 @@ app.get('/task/:uuid/download/:asset', authCheck, getTaskFromUuid, (req, res) =>
 
             const filestream = fs.createReadStream(filePath);
             filestream.pipe(res);
+            const now_Date = new Date()
+            console.log(`Filestream pipe has ran to Download Dataset ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`)
+
         } else {
             res.json({ error: "Asset not ready" });
         }
     } else {
         res.json({ error: "Invalid asset" });
     }
+    
 });
 
 /** @swagger
@@ -599,6 +606,8 @@ app.post('/task/cancel', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidCh
  *            $ref: "#/definitions/Response"
  */
 app.post('/task/remove', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidCheck, (req, res) => {
+    const now_Date = new Date()
+    console.log(`Task is now being Removed ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`)
     taskManager.remove(req.body.uuid, successHandler(res));
 });
 

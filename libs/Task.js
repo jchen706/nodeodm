@@ -257,12 +257,14 @@ module.exports = class Task{
                                         path.join("tests", "processing_results");
 
                     const pathsToArchive = [];
+                    files.push('mve');
                     files.forEach(f => {
                         if (fs.existsSync(path.join(sourcePath, f))){
                             pathsToArchive.push(f);
                         }
                     });
-
+                    console.log("Task.js paths to archive to send back to original Node");
+                    console.log(pathsToArchive);
                     processRunner.sevenZip({
                         destination: zipFile,
                         pathsToArchive,
@@ -284,6 +286,7 @@ module.exports = class Task{
             const createZipArchiveLegacy = (outputFilename, files) => {
                 return (done) => {
                     this.output.push(`Compressing ${outputFilename}\n`);
+                    console.log(`createZipArchiveLegacy in Task.js ${outputFilename}`)
 
                     let output = fs.createWriteStream(this.getAssetsArchivePath(outputFilename));
                     let archive = archiver.create('zip', {
@@ -383,7 +386,7 @@ module.exports = class Task{
                               'odm_dem/dsm.tif', 'odm_dem/dtm.tif', 'dsm_tiles', 'dtm_tiles',
                               'orthophoto_tiles', 'potree_pointcloud', 'entwine_pointcloud', 
                               'images.json', 'cameras.json',
-                              'odm_report'];
+                              'odm_report', 'mve'];
             
             // Did the user request different outputs than the default?
             if (this.outputs.length > 0) allPaths = this.outputs;

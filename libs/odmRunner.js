@@ -24,6 +24,7 @@ let config = require('../config.js');
 let logger = require('./logger');
 let utils = require('./utils');
 
+
 module.exports = {
     run: function(options, projectName, done, outputReceived){
         assert(projectName !== undefined, "projectName must be specified");
@@ -48,7 +49,10 @@ module.exports = {
 
         params.push(projectName);
 
-        logger.info(`About to run: ${command} ${params.join(" ")}`);
+        logger.info(`About to run in odm Runner.js: ${command} ${params.join(" ")}`);
+        const now_Date = new Date()
+        console.log(`Going to Run command in odm Runner.js ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`)
+
 
         if (config.test){
             logger.info("Test mode is on, command will not execute");
@@ -127,6 +131,7 @@ module.exports = {
             });
 
             // Don't wait
+
             done(err, result);
         };
 

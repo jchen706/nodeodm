@@ -83,8 +83,12 @@ const upload = multer({
         filename: (req, file, cb) => {
             let filename = file.originalname;
             if (filename === "body.json") filename = "_body.json";
+         
 
             let dstPath = path.join("tmp", req.id);
+            const now_Date = new Date()
+            console.log(`About to Upload the File ${filename} at Path ${dstPath},  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`)
+
             assureUniqueFilename(dstPath, filename, cb);
         }
     })
@@ -185,6 +189,10 @@ module.exports = {
 
     handleInit: (req, res) => {
         req.body = req.body || {};
+        const now_Date = new Date()
+        console.log(`Current Time in handle initialization in taskNew.js,  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`)
+
+        console.log(`Request Body in handle init in taskNew.js ${req.body.options}`);
         
         const srcPath = path.join("tmp", req.id);
         const bodyFile = path.join(srcPath, "body.json");
@@ -376,6 +384,9 @@ module.exports = {
 
                 // Create task
                 cb => {
+                    const now_Date = new Date()
+                    console.log(`Created Task in TaskNew.js ${now_Date}  and Milliseconds: ${now_Date.getMilliseconds()}`)
+
                     new Task(req.id, req.body.name, req.body.options,
                     req.body.webhook,
                     req.body.skipPostProcessing === 'true',

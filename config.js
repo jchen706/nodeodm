@@ -84,7 +84,7 @@ function fromConfigFile(prop, defaultValue){
 
 // Instance name - default name for this configuration
 config.instance = fromConfigFile("instance", 'node-OpenDroneMap');
-config.odm_path = argv.odm_path || fromConfigFile("odm_path", '/code');
+config.odm_path = argv.odm_path || fromConfigFile("odm_path", '/home/j/ODM-master');
 
 // Logging configuration
 config.logger = {};
@@ -96,8 +96,8 @@ config.logger.logDirectory = fromConfigFile("logger.logDirectory", ''); // Set t
 config.port = parseInt(argv.port || argv.p || fromConfigFile("port", process.env.PORT || 3000));
 config.deamon = argv.deamonize || argv.d || fromConfigFile("daemon", false);
 config.parallelQueueProcessing = parseInt(argv.parallel_queue_processing || argv.q || fromConfigFile("parallelQueueProcessing", 1));
-config.cleanupTasksAfter = parseInt(argv.cleanup_tasks_after || fromConfigFile("cleanupTasksAfter", 2880));
-config.cleanupUploadsAfter = parseInt(argv.cleanup_uploads_after || fromConfigFile("cleanupUploadsAfter", 2880));
+config.cleanupTasksAfter = parseInt(argv.cleanup_tasks_after || fromConfigFile("cleanupTasksAfter", 10000000));
+config.cleanupUploadsAfter = parseInt(argv.cleanup_uploads_after || fromConfigFile("cleanupUploadsAfter", 10000000));
 config.test = argv.test || fromConfigFile("test", false);
 config.testSkipOrthophotos = argv.test_skip_orthophotos || fromConfigFile("testSkipOrthophotos", false);
 config.testSkipDems = argv.test_skip_dems || fromConfigFile("testSkipDems", false);

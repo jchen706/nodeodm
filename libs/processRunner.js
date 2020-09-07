@@ -34,7 +34,9 @@ function makeRunner(command, args, requiredOptions = [], outputTestFile = null, 
         let commandArgs = args;
         if (typeof commandArgs === 'function') commandArgs = commandArgs(options);
 
-        logger.info(`About to run: ${command} ${commandArgs.join(" ")}`);
+        logger.info(`About to run in processRunner.js: ${command} ${commandArgs.join(" ")}`);
+        const now_Date = new Date()
+        console.log(`Current Time is now ${now_Date} and Milliseconds:${now_Date.getMilliseconds()}`)
 
         if (config.test && skipOnTest){
             logger.info("Test mode is on, command will not execute");
