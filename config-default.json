@@ -1,6 +1,6 @@
 {
 	"instance": "node-OpenDroneMap",
-	"odm_path": "/home/j/ODM-master",
+	"odm_path": "/code",
 
 	"logger": {
 		"level": "info",
@@ -12,7 +12,7 @@
 	"port": 3000,
 	"deamon": false,
 	"parallelQueueProcessing": 1,
-	"cleanupTasksAfter": 1000000,
+	"cleanupTasksAfter": 10000,
 	"test": false,
 	"testSkipOrthophotos": false,
 	"testSkipDems": false,
