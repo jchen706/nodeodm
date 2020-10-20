@@ -47,11 +47,6 @@ const formDataParser = multer().none();
 const urlEncodedBodyParser = bodyParser.urlencoded({extended: false});
 const jsonBodyParser = bodyParser.json();
 const morgan = require('morgan');
-const requestStats = require('request-stats')
-//requestStats(app, function(stats) {
-//	console.log(stats);
-//});
-
 
 app.use(morgan('[:date[iso]] HTTP/Method: :method URL: :url Status: :status - Res  :res[content-length] bytes - Req :req[content-length] bytes  - :response-time ms'));
 
@@ -293,8 +288,7 @@ app.post('/task/new', authCheck, taskNew.assignUUID, taskNew.uploadImages, (req,
     req.body = req.body || {};
     if ((!req.files || req.files.length === 0) && !req.body.zipurl) req.error = "Need at least 1 file or a zip file url.";
     else if (config.maxImages && req.files && req.files.length > config.maxImages) req.error = `${req.files.length} images uploaded, but this node can only process up to ${config.maxImages}.`;
-    
-    next();
+        next();
 }, taskNew.createTask);
 
 let getTaskFromUuid = (req, res, next) => {
@@ -736,7 +730,7 @@ app.post('/task/restart', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidC
 app.get('/options', authCheck, (req, res) => {
     //const now_Date = new Date();
     //console.log(`&& App get /options  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-    
+
 
     odmInfo.getOptions((err, options) => {
         if (err) res.json({ error: err.message });
@@ -977,11 +971,6 @@ let commands = [
             if (!err) logger.info('Server has started on port ' + String(config.port));
             cb(err);
         });
-	requestStats(server, function(stats) {
-        	console.log(stats);
-	});
-
-
     }
 ];
 

@@ -1,0 +1,17 @@
+Script started on 2020-10-05 03:30:44+01:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="156" LINES="24"]
+]0;pi@raspberrypi: ~/testODM/ODM/NodeODM2/nodeodm[01;32mpi@raspberrypi[00m:[01;34m~/testODM/ODM/NodeODM2/nodeodm $[00m exitnode index.js 
+info: Authentication using NoTokenRequired
+info: Listening on 0.0.0.0:6367 UDP for progress updates
+info: Initialized 0 tasks
+info: Checking for orphaned directories to be removed...
+info: Server has started on port 3000
+&& In Auth Check  /info  Mon Oct 05 2020 03:31:00 GMT+0100 (BST) and Milliseconds: 5
+[2020-10-05T02:31:00.094Z] HTTP/Method: GET URL: /info Status: 200 - 182 bytes - 91.391 ms
+&& In Auth Check  /info  Mon Oct 05 2020 03:31:59 GMT+0100 (BST) and Milliseconds: 951
+[2020-10-05T02:32:00.017Z] HTTP/Method: GET URL: /info Status: 200 - 182 bytes - 63.459 ms
+^Cinfo: Closing server
+info: Exiting...
+]0;pi@raspberrypi: ~/testODM/ODM/NodeODM2/nodeodm[01;32mpi@raspberrypi[00m:[01;34m~/testODM/ODM/NodeODM2/nodeodm $[00m exit
+exit
+
+Script done on 2020-10-05 03:32:04+01:00 [COMMAND_EXIT_CODE="0"]

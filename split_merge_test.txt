@@ -1,0 +1,5 @@
+Script started on 2020-10-05 03:30:36+01:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="156" LINES="24"]
+]0;pi@raspberrypi: ~/testODM/ODM/NodeODM2/nodeodm[01;32mpi@raspberrypi[00m:[01;34m~/testODM/ODM/NodeODM2/nodeodm $[00m exit
+exit
+
+Script done on 2020-10-05 03:30:41+01:00 [COMMAND_EXIT_CODE="0"]

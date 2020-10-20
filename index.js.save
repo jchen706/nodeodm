@@ -47,13 +47,8 @@ const formDataParser = multer().none();
 const urlEncodedBodyParser = bodyParser.urlencoded({extended: false});
 const jsonBodyParser = bodyParser.json();
 const morgan = require('morgan');
-const requestStats = require('request-stats')
-//requestStats(app, function(stats) {
-//	console.log(stats);
-//});
 
-
-app.use(morgan('[:date[iso]] HTTP/Method: :method URL: :url Status: :status - Res  :res[content-length] bytes - Req :req[content-length] bytes  - :response-time ms'));
+app.use(morgan('[:date[iso]] HTTP/Method: :method URL: :url Status: :status - :res[content-length] bytes - :response-time ms'));
 
 let taskManager;
 let server;
@@ -286,10 +281,6 @@ app.post('/task/new/commit/:uuid', authCheck, taskNew.getUUID, taskNew.handleCom
  *            $ref: '#/definitions/Error'
  */
 app.post('/task/new', authCheck, taskNew.assignUUID, taskNew.uploadImages, (req, res, next) => {
-    //const now_Date = new Date();
-    //console.log(`&& App post /task/new Images Length: ${req.files.length}  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-
-
     req.body = req.body || {};
     if ((!req.files || req.files.length === 0) && !req.body.zipurl) req.error = "Need at least 1 file or a zip file url.";
     else if (config.maxImages && req.files && req.files.length > config.maxImages) req.error = `${req.files.length} images uploaded, but this node can only process up to ${config.maxImages}.`;
@@ -336,10 +327,6 @@ let getTaskFromUuid = (req, res, next) => {
  *            $ref: '#/definitions/Error'
  */
 app.get('/task/list', authCheck, (req, res) => {
-    //const now_Date = new Date();
-    //console.log(`&& App get /task/list  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-
-
     const tasks = [];
     for (let uuid in taskManager.tasks){
         tasks.push({uuid});
@@ -430,10 +417,6 @@ app.get('/task/list', authCheck, (req, res) => {
  *            $ref: '#/definitions/Error'
  */
 app.get('/task/:uuid/info', authCheck, getTaskFromUuid, (req, res) => {
-   // const now_Date = new Date();
-   // console.log(`&& App get task/${req.param.uuid}/info  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-
-
     const info = req.task.getInfo();
     if (req.query.with_output !== undefined) info.output = req.task.getOutput(req.query.with_output);
     res.json(info);
@@ -475,10 +458,6 @@ app.get('/task/:uuid/info', authCheck, getTaskFromUuid, (req, res) => {
  *            $ref: '#/definitions/Error'
  */
 app.get('/task/:uuid/output', authCheck, getTaskFromUuid, (req, res) => {
-    //const now_Date = new Date();
-    //console.log(`&& App get task/${req.params.uuid}/output  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-
-
     res.json(req.task.getOutput(req.query.line));
 });
 
@@ -519,8 +498,8 @@ app.get('/task/:uuid/output', authCheck, getTaskFromUuid, (req, res) => {
  *            $ref: '#/definitions/Error'
  */
 app.get('/task/:uuid/download/:asset', authCheck, getTaskFromUuid, (req, res) => {
-    // const now_Date = new Date();
-    // console.log(`&& App get download asset ${req.params.asset}  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
+     const now_Date = new Date();
+     console.log(`&& App get download asset ${req.params.asset}  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
 
 
     let asset = req.params.asset !== undefined ? req.params.asset : "all.zip";
@@ -604,11 +583,11 @@ let successHandler = res => {
  *            $ref: "#/definitions/Response"
  */
 app.post('/task/cancel', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidCheck, (req, res) => {
-    //const now_Date = new Date();
-    //console.log(`&& App post /task/cancel ${req.body.uuid}  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
+  const now_Date = new Date();
+  console.log(`&& App task cancel   ${now_Date.getMilliseconds()}`);
 
-
-    taskManager.cancel(req.body.uuid, successHandler(res));
+  
+  taskManager.cancel(req.body.uuid, successHandler(res));
 });
 
 /** @swagger
@@ -636,8 +615,8 @@ app.post('/task/cancel', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidCh
  *            $ref: "#/definitions/Response"
  */
 app.post('/task/remove', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidCheck, (req, res) => {
-    //const now_Date = new Date()
-    //console.log(`Task post /task/remove is now being Removed ${req.body.uuid}  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`)
+    const now_Date = new Date()
+    console.log(`Task is now being Removed ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`)
     taskManager.remove(req.body.uuid, successHandler(res));
 });
 
@@ -673,11 +652,7 @@ app.post('/task/remove', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidCh
  *            $ref: "#/definitions/Response"
  */
 app.post('/task/restart', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidCheck, (req, res, next) => {
-    const now_Date = new Date();
-    console.log(`&& App post /task/restart ${req.body.uuid}  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-
- 
-   if (req.body.options){
+    if (req.body.options){
         odmInfo.filterOptions(req.body.options, (err, options) => {
             if (err) res.json({ error: err.message });
             else {
@@ -734,10 +709,6 @@ app.post('/task/restart', urlEncodedBodyParser, jsonBodyParser, authCheck, uuidC
  *                 description: Description of what this option does
  */
 app.get('/options', authCheck, (req, res) => {
-    //const now_Date = new Date();
-    //console.log(`&& App get /options  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-    
-
     odmInfo.getOptions((err, options) => {
         if (err) res.json({ error: err.message });
         else res.json(options);
@@ -792,10 +763,6 @@ app.get('/options', authCheck, (req, res) => {
  *               description: Lowercase identifier of processing engine
  */
 app.get('/info', authCheck, (req, res) => {
-    //const now_Date = new Date();
-    //console.log(`&& App get /info  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-
-
     async.parallel({
         cpu: cb => si.cpu(data => cb(null, data)),
         mem: cb => si.mem(data => cb(null, data)),
@@ -847,10 +814,6 @@ app.get('/info', authCheck, (req, res) => {
  *               description: URL (absolute or relative) where to make a POST request to register a user, or null if registration is disabled.
  */
 app.get('/auth/info', (req, res) => {
-    const now_Date = new Date();
-    console.log(`&& App get /auth/info  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-
-
     res.json({
         message: "Authentication not available on this node", 
         loginUrl: null,
@@ -892,10 +855,6 @@ app.get('/auth/info', (req, res) => {
  *            $ref: '#/definitions/Error'
  */
 app.post('/auth/login', (req, res) => {
-    const now_Date = new Date();
-    console.log(`&& App auth/login  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
-
-
     res.json({error: "Not available"});
 });
 
@@ -977,11 +936,6 @@ let commands = [
             if (!err) logger.info('Server has started on port ' + String(config.port));
             cb(err);
         });
-	requestStats(server, function(stats) {
-        	console.log(stats);
-	});
-
-
     }
 ];
 

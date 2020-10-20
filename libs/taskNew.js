@@ -88,7 +88,8 @@ const upload = multer({
             let dstPath = path.join("tmp", req.id);
             const now_Date = new Date()
             console.log(`About to Upload the File ${filename} at Path ${dstPath},  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`)
-
+            //var stats = fs.statSync(filename);
+            //console.log(`file sizein task new is ${stats.size}`);
             assureUniqueFilename(dstPath, filename, cb);
         }
     })
@@ -283,7 +284,7 @@ module.exports = {
                             if (err) cb(err);
                             else{
                                 let archiveDestPath = path.join(dstPath, archive);
-
+				
                                 download(req.body.zipurl, archiveDestPath, cb);
                             }
                         });
@@ -308,6 +309,9 @@ module.exports = {
                             
                             // Extract
                             cb => {
+                                var stats = fs.statSync(seedFileDst);
+           			console.log(`file sizein task new is ${stats.size}`);
+
                                 fs.createReadStream(seedFileDst).pipe(unzip.Extract({ path: destPath }))
                                     .on('close', cb)
                                     .on('error', cb);

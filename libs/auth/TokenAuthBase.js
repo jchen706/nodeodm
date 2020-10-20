@@ -31,6 +31,10 @@ module.exports = /*abstract */ class TokenAuthBase{
 
     getMiddleware(){
         return (req, res, next) => {
+	    const now_Date = new Date();
+   	    console.log(`&& In Auth Check Req content length  ${req['content-length']}      ${req.url}  ${now_Date} and Milliseconds: ${now_Date.getMilliseconds()}`);
+
+
             this.validateToken(req.query.token, (err, valid) => {
                 if (valid) next();
                 else{

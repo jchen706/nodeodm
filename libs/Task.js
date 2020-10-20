@@ -153,6 +153,7 @@ module.exports = class Task{
 
     // Deletes files and folders related to this task
     cleanup(cb){
+	console.log('cleanup in task js ');
         rmdir(this.getProjectFolderPath(), cb);
     }
 
@@ -276,10 +277,23 @@ module.exports = class Task{
                         }else{
                             if (code === 0){
                                 this.updateProgress(97);
+				  console.log('before sevenzip')
+                  		  var stats = fs.statSync(zipFile);
+                   		  var fileSizeInBytes = stats['size'];
+                  		  console.log("FILE SIZE ZIP FILE ");
+                  		  console.log(zipFile);
+                  		  console.log(fileSizeInBytes);
+
                                 done();
                             }else done(new Error(`Could not archive .zip file, 7z exited with code ${code}`));
                         }
                     });
+		   //console.log('before sevenzip')
+		   //var stats = fs.statSync(zipFile);
+		   //var fileSizeInBytes = stats['size'];
+		   //console.log("FILE SIZE ZIP FILE ");
+		   //console.log(zipFile);
+		   //console.log(fileSizeInBytes);
                 };
             };
 

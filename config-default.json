@@ -1,6 +1,6 @@
 {
 	"instance": "node-OpenDroneMap",
-	"odm_path": "/code",
+	"odm_path": "/home/pi/testODM/ODM",
 
 	"logger": {
 		"level": "info",
